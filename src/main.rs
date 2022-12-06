@@ -6,7 +6,9 @@ use axum::{http::StatusCode, response::IntoResponse, routing::get, Router};
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let app = Router::new().route("/", get(index));
+    let app = Router::new()
+        .route("/", get(index))
+        .route("/healthz", get(|| async { StatusCode::OK }));
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     tracing::debug!("listening on {}", addr);
